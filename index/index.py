@@ -70,8 +70,8 @@ def answer_question():
 		'Score': str(result['score'])
 		})
 	progress = 90
-	if result['score'] < 0.5:
-		text = "Sorry I don't get it.\nBut you can still reach me by email at chotravis87@gmail.com\n"
+	if result['score'] < 0.3:
+		text = result['answer'].capitalize() + '\n' + "I am not sure I understand correctly.\nBut you can still reach me by email at chotravis87@gmail.com\n"
 	else:
 		text = result['answer'].capitalize() + '\n'
 	progress = 100
