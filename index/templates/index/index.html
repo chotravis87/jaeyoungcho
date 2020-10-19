@@ -1,5 +1,8 @@
 {% extends '/base.html' %}
 
+{% block head %}
+{% endblock %}
+
 {% block body %}
 <section class="post">
 	<header class="major">
@@ -7,24 +10,27 @@
 	</header>
 	<p>Ask me anything to my clone!</p>
 	<hr>
-	<form id="aiform" method="post" action="/chatbot">
+	<form method="post" action="/chatbot" role="form">
 		<div class="row gtr-uniform">
 			<div class="col-12">
-				<textarea name="text" id="askarea" placeholder="Ask me anything!" rows="1"></textarea>
+				<textarea name="askarea" id="askarea" placeholder="Ask me anything!" rows="1"></textarea>
 			</div>
 			<!-- Break -->
 			<div class="col-12">
 				<ul class="actions">
-					<li><input id="submit" type="submit" value="Ask" class="primary"/></li>
-					<li><input type="reset" value="Reset" /></li>
+					<li><input type="submit" value="Ask" id="submit" class="primary" name="submit"/></li>
+					<li><input type="reset" value="Reset" id="reset" name="reset"/></li>
 					<li><input type="checkbox" id="debug" name="debug"><label for="debug">Debug</label></li>
 				</ul>
 			</div>
-			<div class="col-12">
-				<textarea readonly name="text" id="replyarea" placeholder="Reply" rows="5">{{ reply }}</textarea>
-			</div>
 		</div>
 	</form>
+	<div class="progress" style="margin: 1vh 0;">
+		<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
+	<div class="col-12">
+		<textarea readonly name="text" id="replyarea" placeholder="Reply" rows="5">{{ reply }}</textarea>
+	</div>
 	<hr>
 	<h2>How does it work?</h2>
 	<p>Thanks to the acceleration of NLP(Natural Language Processing) and its pretrained model from many companies,
@@ -46,23 +52,50 @@
 	The question that the bot could not answer will be kept updated :)</p>
 </section>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(".progress").hide();
 $("#submit").click(function(e){
+	$(".progress").show(1000);
+	reset();
 	e.preventDefault();
     var text = $("#askarea").val();
     var debug = $("#debug").is(':checked');
     $.ajax({
-      url: "/chatbot",
-      type: "POST",
-      data: {'text': text, 'debug': debug},
-      success: function(response) {
-        $("#replyarea").html(response);
-      },
-      error: function(xhr) {
-        //Do Something to handle error
-      }
+		url: "/chatbot",
+		type: "POST",
+		data: {'text': text, 'debug': debug},
+		update_progress: function() {
+			window.setInterval(function() {
+				$.ajax({
+					url: '/chatbot/progress',
+					type: 'POST',
+					}).done(function(data) {
+						$('.progress-bar').animate({'width': data + '%'}).attr('aria-valuenow', data);
+					})
+				}, 100);
+			},
+  	    success: function(response) {
+     	   $("#replyarea").html(response);
+			$(".progress > .progress-bar").addClass("bg-success");
+			$(".progress > .progress-bar").animate({"width": "100%"}).attr('aria-valuenow', 100);
+	    	},
+		error: function(xhr) {
+			$("#replyarea").html('Something went wrong!')
+			$(".progress > .progress-bar").addClass("bg-danger");
+			$(".progress > .progress-bar").animate({"width": "100%"}).attr('aria-valuenow', 100);
+			}
     });
 });
+
+$("#reset").click(function(e){
+	$(".progress").hide(1000).attr('aria-valuenow', 0);	
+	reset();
+});
+
+function reset()
+{
+	$(".progress > .progress-bar").animate({"width": "0%"}).attr('aria-valuenow', 0);
+	$(".progress > .progress-bar").removeClass("bg-success").removeClass("bg-danger");	
+}
 </script>
 {% endblock %}
