@@ -1,0 +1,13 @@
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+.git
+.gitignore
+
+# Mac
+.DS_Store
+
+# Cache
+__pycache__
+
+# Pretrained model
+bert

@@ -1,0 +1,68 @@
+{% extends '/base.html' %}
+
+{% block body %}
+<section class="post">
+	<header class="major">
+		<h1>Jaeyoung's Clone</h1>
+	</header>
+	<p>Ask me anything to my clone!</p>
+	<hr>
+	<form id="aiform" method="post" action="/chatbot">
+		<div class="row gtr-uniform">
+			<div class="col-12">
+				<textarea name="text" id="askarea" placeholder="Ask me anything!" rows="1"></textarea>
+			</div>
+			<!-- Break -->
+			<div class="col-12">
+				<ul class="actions">
+					<li><input id="submit" type="submit" value="Ask" class="primary"/></li>
+					<li><input type="reset" value="Reset" /></li>
+					<li><input type="checkbox" id="debug" name="debug"><label for="debug">Debug</label></li>
+				</ul>
+			</div>
+			<div class="col-12">
+				<textarea readonly name="text" id="replyarea" placeholder="Reply" rows="5">{{ reply }}</textarea>
+			</div>
+		</div>
+	</form>
+	<hr>
+	<h2>How does it work?</h2>
+	<p>Thanks to the acceleration of NLP(Natural Language Processing) and its pretrained model from many companies,
+	making chatbot is easier than ever!</p>
+	<p>Precisely, this is not a chatbot. It is a transformers model that understand the context and extract the answer of your question.
+	My cover letter is used for the context, and I use Google's BERT (Bidirectional Encoder Representations from Transformers) model which is made by Google.</p>
+	<p>All you need is four lines of code :)</p>
+	<pre>
+		<code>>>> from transformers import pipeline, BertForQuestionAnswering, BertTokenizer
+>>> model = "deepset/bert-large-uncased-whole-word-masking-squad2"
+>>> replier = pipeline('question-answering', 
+...			model=BertForQuestionAnswering.from_pretrained(model), 
+...			tokenizer=BertTokenizer(model))
+>>> replier(question=your_question, context=my_cover_letter)
+# {'score': confidence, 'start': , 'end': , 'answer': answer}</code>
+	</pre>
+	<p>See? So easy to use. I also add extra feature such as print "I don't know" if confidence is below 0.5.</p>
+	<p>Also, your question will be uploaded to my database. <br />
+	The question that the bot could not answer will be kept updated :)</p>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$("#submit").click(function(e){
+	e.preventDefault();
+    var text = $("#askarea").val();
+    var debug = $("#debug").is(':checked');
+    $.ajax({
+      url: "/chatbot",
+      type: "POST",
+      data: {'text': text, 'debug': debug},
+      success: function(response) {
+        $("#replyarea").html(response);
+      },
+      error: function(xhr) {
+        //Do Something to handle error
+      }
+    });
+});
+</script>
+{% endblock %}

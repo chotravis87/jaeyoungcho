@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>{{ title }}</title>
+
+		<!-- META -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+		<meta property="og:url" content="http://www.jaeyoungcho.com/">
+    	<meta property="og:title" content="Explore | Jaeyoung Cho">
+    	<meta property="og:site_name" content="Jaeyoung Cho"/>
+    	<meta property="og:type" content="website">
+    	<meta property="og:image" content="http://www.jaeyoungcho.com/static/images/preview.png">
+    	<meta property="og:description" content="Programmer. Self-Learner. Always stay positive">
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="/static/css/main.css" />
+	    <script src="https://kit.fontawesome.com/dc00b3b728.js" crossorigin="anonymous"></script>
+
+	    <!-- Favicon -->
+	    <link rel="icon" href="/static/images/favicon.png" type="image/x-icon"/>
+		<link rel="shortcut icon" href="/static/images/favicon.png" type="image/x-icon"/>
+
+	    {% block head %}
+	    {% endblock %}
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+				{% if intro %}
+				<div id="intro">
+					<h1>Hi, My name is<br />
+					Jaeyoung Cho</h1>
+					<p>Welcome to my website :)</p>
+					<ul class="actions">
+						<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
+					</ul>
+				</div>
+				{% endif %}
+
+				<!-- Header -->
+					<header id="header">
+						<a href="/" class="logo">JAEYOUNG CHO</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li class="{% if menu_main %}active{% endif %}"><a href="/">Main</a></li>
+							<li class="{% if menu_projects %}active{% endif %}"><a href="/projects">Projects</a></li>
+							<li class="{% if menu_piano %}active{% endif %}"><a href="/maintenance">Piano</a></li>
+							<li class="{% if menu_thoughts %}active{% endif %}"><a href="/maintenance">Thoughts</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://www.linkedin.com/in/jaeyoung-cho-6286a719b/" class="icon brands fa-linkedin" target="_blank"><span class="label">Linkedin></span></a></li>
+							<li><a href="https://www.instagram.com/travis_cho87_cook/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+							<li><a href="https://github.com/chotravis87" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+					{% block body %}
+					{% endblock %}
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section class="split contact">
+							<section class="alt">
+								<h3>NAME</h3>
+								<p>Jaeyoung Cho<br />
+								Travis Cho</p>
+							</section>
+							<section class="alt">
+								<h3>Address<br />ROK</h3>
+								<p>TS Prius Apartment, OOO<br />
+								30, Seorae-ro 8-gil<br />
+								Seocho-gu, Seoul 06577</p>
+							</section>
+							<section>
+								<h3>Phone</h3>
+								<p><a href="tel:+1626-243-8577">+1 (626) 243-8577</a><br />
+								<a href="tel:+8210-6617-4822">+82 10-6617-4822</a></p>
+							</section>
+						</section>
+						<section class="split contact">
+							<section class="alt">
+								<h3>Education</h3>
+								<p>Pasadena City College<br />
+								Feb 2020 - Current<br/>
+								Global Vision Christian School<br />
+								Feb 2017 - Jan 2020</p>
+							</section>
+							<section class="alt">
+								<h3>Address<br />US</h3>
+								<p>512 N CATALINA AVE<br />
+								PASADENA, CA, 91106</p>
+							</section>
+							<section>
+								<h3>Email</h3>
+								<p><a href="mailto:chotravis87@gmail.com">chotravis87@gmail.com</a><br />
+									<a href="mailto:jcho30@go.pasadena.edu">jcho30@go.pasadena.edu</a>
+								</p>
+							</section>
+						</section>
+					</footer>
+
+					<div id="copyright">
+						<ul><li>&copy; JAEYOUNG CHO</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+						<ul>================</ul>
+						<ul><li>Powered By</li><li>Google Cloud, Django, Flask, Transformers, Ajax, Airtable</li></ul>
+					</div>
+
+				</div>
+
+
+
+		<!-- Scripts -->
+			{% block script %}
+			{% endblock %}
+			<script>
+			    $(window).scroll(function () {
+			        sessionStorage.scrollTop = $(this).scrollTop();
+			    });
+			    $(document).ready(function () {
+			        if (sessionStorage.scrollTop != "undefined") {
+			            $(window).scrollTop(sessionStorage.scrollTop);
+			        }
+			    });
+			</script>
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/jquery.scrollex.min.js"></script>
+			<script src="/static/js/jquery.scrolly.min.js"></script>
+			<script src="/static/js/browser.min.js"></script>
+			<script src="/static/js/breakpoints.min.js"></script>
+			<script src="/static/js/util.js"></script>
+			<script src="/static/js/main.js"></script>
+			
+
+				
+			
+			
+	</body>
+</html>

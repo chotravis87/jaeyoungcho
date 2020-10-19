@@ -1,0 +1,37 @@
+{% extends '/base.html' %}
+
+{% block body %}
+<!-- Title -->
+<section class="post">
+	<header class="major">
+		<h1>Projects</h1>
+	</header>
+</section>
+
+<!-- Projects Tiles -->
+<section class="posts">
+	{% for project in projects %}
+	<article>
+		<header>
+			<span class="date">{{ project.Subtitle }}</span>
+			<h2>{{ project.Title }}</h2>
+		</header>
+		<a href="{{ project.URL }}" target="_blank" class="image fit"><img src="{{ project.Thumbnail }}" alt="" /></a>
+		<p>{% autoescape false %}{{ project.Explanation }}{% endautoescape %}</p>
+		<ul class="actions special">
+			<li><a 
+				href="{{ project.URL }}" 
+				target="_blank"
+				class="button {% if not project.Project_available == 'True' %}disabled{% endif %}">
+			{{ project.Button }}</a></li>
+			<li><a 
+				href="{{ project.Github }}" 
+				target="_blank" 
+				class="button {% if not project.Code_available == 'True' %}disabled{% endif %}">
+			CODE</a></li>
+		</ul>
+	</article>
+	{% endfor %}
+</section>
+
+{% endblock %}
