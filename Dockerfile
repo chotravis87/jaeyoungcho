@@ -18,4 +18,4 @@ ADD https://cdn.huggingface.co/deepset/bert-large-uncased-whole-word-masking-squ
 
 EXPOSE 8080
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8080", "app:create_app()"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]

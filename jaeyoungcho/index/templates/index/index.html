@@ -10,26 +10,29 @@
 	</header>
 	<p>Ask me anything to my clone!</p>
 	<hr>
+	<div class="col-12">
+		<textarea readonly name="text" id="replyarea" placeholder="Reply" rows="5"></textarea>
+	</div>
+	<div class="image fit">
+		<img src="https://i.ibb.co/tJ16V55/main.gif" class="img_status" style="width: 30%; margin: 1px auto;" alt="">
+	</div>
 	<form method="post" action="/chatbot" role="form">
 		<div class="row gtr-uniform">
-			<div class="col-12">
-				<textarea name="askarea" id="askarea" placeholder="Ask me anything!" rows="1"></textarea>
-			</div>
 			<!-- Break -->
 			<div class="col-12">
-				<ul class="actions">
+				<ul class="actions stacked" style="text-align: center;">
 					<li><input type="submit" value="Ask" id="submit" class="primary" name="submit"/></li>
 					<li><input type="reset" value="Reset" id="reset" name="reset"/></li>
 					<li><input type="checkbox" id="debug" name="debug"><label for="debug">Debug</label></li>
 				</ul>
 			</div>
+			<div class="col-12">
+				<textarea name="askarea" id="askarea" placeholder="Ask me anything!" rows="1"></textarea>
+			</div>
 		</div>
 	</form>
 	<div class="progress" style="margin: 1vh 0;">
 		<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-	</div>
-	<div class="col-12">
-		<textarea readonly name="text" id="replyarea" placeholder="Reply" rows="5">{{ reply }}</textarea>
 	</div>
 	<hr>
 	<h2>How does it work?</h2>
@@ -47,9 +50,10 @@
 >>> replier(question=your_question, context=my_cover_letter)
 # {'score': confidence, 'start': , 'end': , 'answer': answer}</code>
 	</pre>
-	<p>See? So easy to use. I also add extra feature such as print "I don't know" if confidence is below 0.5.</p>
+	<p>See? So easy to use. I also add extra features such as print "I don't know" if confidence is below 0.3.</p>
 	<p>Also, your question will be uploaded to my database. <br />
 	The question that the bot could not answer will be kept updated :)</p>
+	<p>I also want to thank <a href="https://github.com/wendy388" target="_blank">Jione</a> who designed the animation for me.</p>
 </section>
 
 <script type="text/javascript">
@@ -58,32 +62,25 @@ $("#submit").click(function(e){
 	$(".progress").show(1000);
 	reset();
 	e.preventDefault();
-    var text = $("#askarea").val();
-    var debug = $("#debug").is(':checked');
+	$(".img_status").attr("src", "https://i.ibb.co/HtxmzFp/loading.gif");
+	var update = setInterval(update_progress, 800);
     $.ajax({
 		url: "/chatbot",
 		type: "POST",
-		data: {'text': text, 'debug': debug},
-		update_progress: function() {
-			window.setInterval(function() {
-				$.ajax({
-					url: '/chatbot/progress',
-					type: 'POST',
-					}).done(function(data) {
-						$('.progress-bar').animate({'width': data + '%'}).attr('aria-valuenow', data);
-					})
-				}, 100);
-			},
+		data: {'text': $("#askarea").val(), 'debug': $("#debug").is(':checked')},
   	    success: function(response) {
-     	   $("#replyarea").html(response);
-			$(".progress > .progress-bar").addClass("bg-success");
-			$(".progress > .progress-bar").animate({"width": "100%"}).attr('aria-valuenow', 100);
-	    	},
-		error: function(xhr) {
-			$("#replyarea").html('Something went wrong!')
-			$(".progress > .progress-bar").addClass("bg-danger");
-			$(".progress > .progress-bar").animate({"width": "100%"}).attr('aria-valuenow', 100);
+			clearInterval(update);
+			if(response == "") {
+				talk("#replyarea", "Empty question entered!", false);	
 			}
+			else {
+				talk("#replyarea", response, true);
+			}
+	    },
+		error: function(xhr) {
+			clearInterval(update);
+			talk("#replyarea", "Something went wrong!", false);
+		}
     });
 });
 
@@ -92,10 +89,55 @@ $("#reset").click(function(e){
 	reset();
 });
 
+function update_progress() {
+	$.ajax({
+		url: '/chatbot/progress',
+		type: 'POST',
+	})
+	.done(function(data) {
+		$('.progress-bar').animate({'width': data + '%'}).attr('aria-valuenow', data);
+	})
+}
+
 function reset()
 {
+	$(".img_status").attr("src", "https://i.ibb.co/tJ16V55/main.gif");
 	$(".progress > .progress-bar").animate({"width": "0%"}).attr('aria-valuenow', 0);
 	$(".progress > .progress-bar").removeClass("bg-success").removeClass("bg-danger");	
+	new TypeIt("#replyarea", {
+		speed: 50,
+		startDelay: 200,
+	}).delete($("#replyarea").val().length)
+	.exec(async() => {
+		await new Promise((resolve, reject) => {
+			return resolve();
+		});
+	})
+	.go();
+}
+
+function talk(target, text, issuccess)
+{
+	if(issuccess) {
+		$(".progress > .progress-bar").addClass("bg-success");
+	}
+	else {
+		$(".progress > .progress-bar").addClass("bg-danger");	
+	}
+	$(".progress > .progress-bar").animate({"width": "100%"}).attr('aria-valuenow', 100);
+	$(".img_status").attr("src", "https://i.ibb.co/Fsgb11L/talking.gif");
+	new TypeIt(target, {
+		strings: text,
+		speed: 60,
+		startDelay: 500
+	})
+	.exec(async() => {
+		await new Promise((resolve, reject) => {
+			$(".img_status").attr("src", "https://i.ibb.co/tJ16V55/main.gif");
+			return resolve();
+		});
+	})
+	.go();
 }
 </script>
 {% endblock %}
