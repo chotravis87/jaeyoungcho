@@ -105,8 +105,8 @@ function reset()
 	$(".progress > .progress-bar").animate({"width": "0%"}).attr('aria-valuenow', 0);
 	$(".progress > .progress-bar").removeClass("bg-success").removeClass("bg-danger");	
 	new TypeIt("#replyarea", {
-		speed: 50,
-		startDelay: 200,
+		speed: 20,
+		startDelay: 0,
 	}).delete($("#replyarea").val().length)
 	.exec(async() => {
 		await new Promise((resolve, reject) => {
@@ -128,8 +128,8 @@ function talk(target, text, issuccess)
 	$(".img_status").attr("src", "https://i.ibb.co/Fsgb11L/talking.gif");
 	new TypeIt(target, {
 		strings: text,
-		speed: 60,
-		startDelay: 500
+		speed: 50,
+		startDelay: 700
 	})
 	.exec(async() => {
 		await new Promise((resolve, reject) => {

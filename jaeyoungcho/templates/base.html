@@ -63,7 +63,7 @@
 							<li class="{% if menu_thoughts %}active{% endif %}"><a href="/maintenance">Thoughts</a></li>
 						</ul>
 						<ul class="icons">
-							<li><a href="https://www.jaeyoungcho.com/refresh" class="icon brands fa-sync"><span class="label">Refresh Data</span></a></li>
+							<li><a href="/refresh" style="display: inline-block;" class="icon solid fa-sync-alt"><span class="label">Refresh</span></a></li>
 							<li><a href="https://www.linkedin.com/in/jaeyoung-cho-6286a719b/" class="icon brands fa-linkedin" target="_blank"><span class="label">Linkedin</span></a></li>
 							<li><a href="https://www.instagram.com/travis_cho87_cook/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							<li><a href="https://github.com/chotravis87" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
@@ -140,6 +140,24 @@
 			            $(window).scrollTop(sessionStorage.scrollTop);
 			        }
 			    });
+
+				$(".fa-sync-alt").click(function(e){
+					e.preventDefault();
+					$(".fa-sync-alt").toggleClass("fa-spin");
+					$.ajax({
+						url: "/refresh",
+						type: "POST",
+						success: function(response) {
+							alert("Database Refreshed!")
+						},
+						error: function(xhr) {
+							alert("Fail to refresh data")
+						},
+						complete: function() {
+							$(".fa-sync-alt").toggleClass("fa-spin");		
+						}
+					});
+				});
 			</script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.scrollex/0.2.1/jquery.scrollex.min.js" integrity="sha512-eFxuATJvNeUrxxoS/5AeVi6X4wY6IdI9kAtRbuGyD2XTLoJ/R9uBce9lsf2UyvY0tQYlUkbs1wV9jhOPxANCzg==" crossorigin="anonymous"></script>
 			<script src="https://cdn.jsdelivr.net/npm/jquery.scrolly@0.0.1/jquery.scrolly.js"></script>
@@ -147,7 +165,5 @@
 			<script src="/static/js/breakpoints.min.js"></script>
 			<script src="/static/js/util.js"></script>
 			<script src="/static/js/main.js"></script>
-			
-			
 	</body>
 </html>

@@ -2579,10 +2579,16 @@ input, select, textarea {
 
 		.icon.solid:before {
 			font-weight: 900;
+			font-family: "Font Awesome 5 Free";
 		}
 
 		.icon.brands:before {
 			font-family: 'Font Awesome 5 Brands';
+		}
+
+		.fa-spin {
+			-webkit-animation: fa-spin 2s linear infinite;
+			animation: fa-spin 2s linear infinite;
 		}
 
 /* Image */

@@ -3,11 +3,15 @@ from transformers import BertForQuestionAnswering, BertTokenizer
 import string
 
 class Chatbot():
-    def __init__(self, model_dir, docs=None):
+    def __init__(self, model_dir=None, model=None, tokenizer=None, docs=None):
         self.__docs = docs
 
-        model = BertForQuestionAnswering.from_pretrained(model_dir)
-        tokenizer = BertTokenizer.from_pretrained(model_dir)
+        if model is None:
+            model = BertForQuestionAnswering.from_pretrained(model_dir)
+        if tokenizer is None:
+            tokenizer = BertTokenizer.from_pretrained(model_dir)
+        if not model is None and not tokenizer is None and model_dir is None:
+            raise Exception("Must specify model path or name")
         self.__qa = pipeline('question-answering', model=model, tokenizer=tokenizer)
 
         self.__question = ""

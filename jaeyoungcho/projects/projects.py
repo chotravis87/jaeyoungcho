@@ -7,11 +7,11 @@ projects_bp = Blueprint('projects_bp', __name__,
 	static_folder='static')
 
 project_fetcher = Database('appPtZ9HagmI97ixP', 'Projects')
-projects = project_fetcher.fetch(['Id', 'Title', 'Subtitle', 'URL', 'Explanation', 'Project_available', 'Code_available', 'Button', 'Github', 'Thumbnail'], 'Id')
 
 @projects_bp.route('/')
 def index():
-	global projects
+	global project_fetcher
+	projects = project_fetcher.fetch(['Id', 'Title', 'Subtitle', 'URL', 'Explanation', 'Project_available', 'Code_available', 'Button', 'Github', 'Thumbnail'], 'Id')
 	return render_template(
 		'projects/index.html', 
 		title='Projects - Jaeyoung Cho', 
