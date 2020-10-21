@@ -63,7 +63,7 @@
 							<li class="{% if menu_thoughts %}active{% endif %}"><a href="/maintenance">Thoughts</a></li>
 						</ul>
 						<ul class="icons">
-							<li><a href="/refresh" style="display: inline-block;" class="icon solid fa-sync-alt"><span class="label">Refresh</span></a></li>
+							<li><a href="#" style="display: inline-block;" class="icon solid fa-sync-alt"><span class="label">Refresh</span></a></li>
 							<li><a href="https://www.linkedin.com/in/jaeyoung-cho-6286a719b/" class="icon brands fa-linkedin" target="_blank"><span class="label">Linkedin</span></a></li>
 							<li><a href="https://www.instagram.com/travis_cho87_cook/" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
 							<li><a href="https://github.com/chotravis87" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
@@ -145,7 +145,7 @@
 					e.preventDefault();
 					$(".fa-sync-alt").toggleClass("fa-spin");
 					$.ajax({
-						url: "/refresh",
+						url: "/refresh/",
 						type: "POST",
 						success: function(response) {
 							alert("Database Refreshed!")
